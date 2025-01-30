@@ -89,7 +89,7 @@ for (let cartItem of shoppingCart) {
   console.log(cartItem); // Bread, Milk, Eggs, Cheese
 }
 
-// Using generators
+// Using generators (as generators automatically implement the iterator protocol, by producing an object with next() method)
 const shoppingCart2 = {
   cartItems: ["smartphone", "laptop", "tablet"],
 
