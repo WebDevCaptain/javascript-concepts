@@ -88,3 +88,18 @@ const shoppingCart = {
 for (let cartItem of shoppingCart) {
   console.log(cartItem); // Bread, Milk, Eggs, Cheese
 }
+
+// Using generators
+const shoppingCart2 = {
+  cartItems: ["smartphone", "laptop", "tablet"],
+
+  [Symbol.iterator]: function* () {
+    for (let item of this.cartItems) {
+      yield item;
+    }
+  },
+};
+
+for (let cartItem of shoppingCart2) {
+  console.log("Gadget", cartItem);
+}
