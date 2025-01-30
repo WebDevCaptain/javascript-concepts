@@ -75,3 +75,20 @@ console.log("Admin permissions", admin.permissions); // ["read", "write"]
 console.log(Reflect.getPrototypeOf(admin), admin.__proto__); // { role: 'User' } { role: 'User' }
 
 console.log(Reflect.ownKeys(admin)); // ['permissions']
+
+// 8. Calling a constructor  ------------------------------
+class Color {
+  constructor(r, g, b) {
+    this.r = r;
+    this.g = g;
+    this.b = b;
+  }
+
+  get rgb() {
+    const { r, g, b } = this;
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+}
+
+const color = Reflect.construct(Color, [255, 200, 128]);
+console.log(Reflect.get(color, "rgb"));
