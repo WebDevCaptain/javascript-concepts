@@ -8,6 +8,10 @@ class Employee {
   constructor(name, role) {
     this.name = name;
     this.role = role;
+
+    if (role === "Manager") {
+      this.manage(); // Calls the child class method because `this` refers to the child class when a Manager is created using `new` keyword
+    }
   }
 
   describe() {
@@ -37,6 +41,12 @@ class Manager extends Employee {
   // Method overriding
   getBonus() {
     return 6000;
+  }
+
+  manage() {
+    console.log(
+      `${this.name} manages people priorities, delivery priorities and tech priorities`
+    );
   }
 }
 
@@ -68,3 +78,6 @@ for (const employee of allEmployees) {
 }
 // Hi, my name is Bobby
 // Hi, my name is Shreyash
+
+// Calling child class methods from parent constructor
+const mgr2 = new Manager("Sanjana", "Manager", "Engineering"); // Sanjana manages people priorities, delivery priorities and tech priorities
