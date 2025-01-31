@@ -1,7 +1,5 @@
 /* 
-  Proxy API - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
-
-  Proxy object provides a layer of interception around a POJO or a Function. It can be used to intercept and modify / redefine the fundamental operations.
+  Proxy API works seamlessly with Reflect API
 */
 
 // Example showing basic traps like get, set, delete and has
@@ -20,7 +18,8 @@ const handler = {
       return "***";
     }
 
-    return target[prop];
+    //   return target[prop];
+    return Reflect.get(target, prop);
   },
 
   set(target, prop, value) {
@@ -29,8 +28,9 @@ const handler = {
       return false;
     }
 
-    target[prop] = value;
-    return true;
+    //   target[prop] = value;
+    //   return true;
+    return Reflect.set(target, prop, value);
   },
 
   deleteProperty(target, prop) {
@@ -39,8 +39,9 @@ const handler = {
       return false;
     }
 
-    delete target[prop];
-    return true;
+    // delete target[prop];
+    // return true;
+    return Reflect.deleteProperty(target, prop);
   },
 
   has(target, prop) {
@@ -49,7 +50,8 @@ const handler = {
       return false;
     }
 
-    return prop in target;
+    // return prop in target;
+    return Reflect.has(target, prop);
   },
 };
 
@@ -87,23 +89,11 @@ console.log("username" in proxy); // true
 console.log("password" in proxy); // false - password cannot be accessed but it is present in the target object
 
 /* 
-  console.log(proxy);
-
-->  {
-      username: 'webdevcaptain',
-      password: 'mysupersecretpassword10010001001',
-      isAdmin: true
-    }
-*/
-
-// --------------
-
-/*
-  Use Cases for Proxy
-
-  - Data validation: Validate user input dynamically.
-
-  - Access control: Prevent unauthorized access to sensitive data.
-
-  - Logging & Reactivity: Log actions performed on an object. Vuejs 2 uses Proxy to implement reactivity.
-*/
+    console.log(proxy);
+  
+  ->  {
+        username: 'webdevcaptain',
+        password: 'mysupersecretpassword10010001001',
+        isAdmin: true
+      }
+  */
