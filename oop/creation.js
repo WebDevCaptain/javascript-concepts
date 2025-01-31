@@ -49,3 +49,10 @@ class Student {
 
 const s1 = new Student("Shreyash", 30);
 s1.greet(); // Hello, my name is Shreyash
+
+// Destructuring class properties and methods
+const { name, age, greet } = new Student("Shreyash", 30);
+console.log(name, age); // Shreyash 30
+
+// Setting appropriate this binding
+Reflect.apply(greet, s1, []);
