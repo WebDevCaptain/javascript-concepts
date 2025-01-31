@@ -25,8 +25,14 @@ class Circle {
   static area(radius) {
     return Circle.PI * radius * radius;
   }
+
+  static perimeter(radius) {
+    return 2 * this.PI * radius; // this refers to the Circle class in a static method, so this.PI is equivalent to Circle.PI
+  }
 }
 
 console.log(`Value of PI: ${Circle.PI}`); // Value of PI: 3.14
 
 console.log(`Area of a circle with radius 5: ${Circle.area(5)}`); // Area of a circle with radius 5: 78.5
+
+console.log(`Perimeter of a circle with radius 10: ${Circle.perimeter(10)}`); // Perimeter of a circle with radius 10: 62.8
