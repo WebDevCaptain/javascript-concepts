@@ -83,3 +83,84 @@ Object.defineProperties(logger, {
 });
 
 console.log(Object.values(logger)); // [ 'Log 1', 'Log 3' ]
+
+// 6. Preventing extensions  ------------------------------
+const adminUser = {
+  name: "Shreyash",
+  userId: 12121,
+  password: "mysecretpassword",
+};
+
+const locked = Reflect.preventExtensions(adminUser); // Cannot add new properties to adminUser
+
+adminUser.isAdmin = true; // Cannot add new properties to adminUser
+delete adminUser.userId; // Deletion is allowed
+
+console.log(adminUser, locked); // { name: 'Shreyash', password: 'mysecretpassword' }
+
+// 7. Getter-Setter with property descriptors  ------------------------------
+const student = {
+  firstName: "Rajiv",
+  lastName: "Agarwal",
+};
+
+Reflect.defineProperty(student, "fullName", {
+  enumerable: false,
+
+  get() {
+    return `${this.firstName} ${this.lastName}`;
+  },
+  set(value) {
+    const [firstName, lastName] = value.split(" ");
+    this.firstName = firstName;
+    this.lastName = lastName;
+  },
+});
+
+console.log(student.fullName); // Rajiv Agarwal
+student.fullName = "Ravi Prakash";
+console.log(student.fullName); // Ravi Prakash
+
+console.log(Object.keys(student)); // [ 'firstName', 'lastName' ]. fullName is not enumerable
+
+// ---
+
+Reflect.defineProperty(student, "COLLEGE", {
+  value: "DTU",
+  writable: false,
+  enumerable: true,
+  configurable: false,
+});
+
+console.log(Object.keys(student)); // [ 'firstName', 'lastName', 'COLLEGE' ]
+console.log(student.COLLEGE); // DTU
+
+// Freezing objects ---------- ------------ -------------- ------------
+const party = {
+  name: "Birthday Party",
+  guests: ["Shreyash", "Jenny", "Rajiv"],
+};
+
+Object.freeze(party);
+
+party.place = "Delhi"; // Cannot add new property
+
+party.guests.push("Ravi Prakash"); // Guest array can change as it's a reference and we are not overriding that reference
+
+party.guests = ["Sanya", "Krishna"]; // Cannot override guest array
+
+console.log(party); // { name: 'Party', guests: [ 'Shreyash', 'Jenny', 'Rajiv', 'Ravi Prakash' ] }
+
+// Sealing objects ---------- ------------ -------------- ------------
+const gadget = {
+  name: "Laptop",
+  price: 50000,
+};
+
+Object.seal(gadget);
+
+gadget.price = 60000; // Cannot change price
+
+gadget.color = "Black"; // Cannot add new property
+
+console.log(gadget); // { name: 'Laptop', price: 60000 }
