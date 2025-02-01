@@ -56,3 +56,56 @@ console.log(name, age); // Shreyash 30
 
 // Setting appropriate this binding
 Reflect.apply(greet, s1, []);
+
+// ----------   --------    ---------     --------     --------     --------     --------
+// Prototype Chaining
+
+// student object -> Student.prototype -> Object.prototype
+
+class Fruit {
+  constructor(color) {
+    this.color = color;
+  }
+  eat() {
+    console.log(`Eat me. I am a ${this.color} fruit.`);
+  }
+}
+
+class Apple extends Fruit {
+  constructor(color) {
+    super(color);
+  }
+
+  describe() {
+    console.log(`I am a ${this.color} colored apple.`);
+  }
+}
+
+const a1 = new Apple("Red");
+console.dir(a1);
+
+// Currently a1 -----> Apple.prototype -----> Fruit.prototype -----> Object.prototype
+
+console.log(Reflect.getPrototypeOf(a1)); // Apple.prototype
+
+console.log(Reflect.getPrototypeOf(Reflect.getPrototypeOf(a1))); // Fruit.prototype
+
+console.log(
+  Reflect.getPrototypeOf(Reflect.getPrototypeOf(Reflect.getPrototypeOf(a1)))
+); // Object.prototype
+
+// Let's add one more method to a1's prototype
+
+Reflect.setPrototypeOf(a1, {
+  // ...Reflect.getPrototypeOf(a1), // Doesn't work in strict mode
+  healthBenefits() {
+    console.info(`${this.color} apple is good for health.`);
+  },
+});
+
+// a1.eat(); // Doesn't work in strict mode
+
+console.log(Reflect.getPrototypeOf(a1)); // { healthBenefits() }
+
+const a2 = new Apple("Yellow");
+console.log(Reflect.getPrototypeOf(a2)); // { healthBenefits() } is missing as we didn't modified a2's prototype
